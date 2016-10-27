@@ -136,11 +136,11 @@ static void render_pile( t_window *w, t_pile *p, int offset)
     height = y0;
     while (y0 <= WIN_HEIGHT - height)
     {
-        while (circ + 1 <= NB_CIRCLE)//* 2 )
+        while (circ + 1 <= NB_CIRCLE* 2 )
         {
             while (tmp)
             {
-                drawcircle((rad * circ*2), y0, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
+                drawcircle((rad * circ), y0, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
                 ++offset;
                 tmp = tmp->next;
             }
@@ -154,11 +154,11 @@ static void render_pile( t_window *w, t_pile *p, int offset)
     y0 = rad;
     while (y0 <= WIN_HEIGHT - rad)
     {
-        while (circ <= NB_CIRCLE)// * 2)
+        while (circ <= NB_CIRCLE * 2)
         {
             while (tmp)
             {
-                drawcircle((rad * circ*2)-rad, y0, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
+                drawcircle((rad * circ)-rad, y0, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
                 ++offset;
                 tmp = tmp->next;
             }
@@ -184,7 +184,7 @@ void        render(t_pile *a, t_pile *b) {
     while (SDL_PollEvent(&w.event)) {
         key_handler(w.event);
     }
-	render_pile22(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
+	render_pile(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
 	SDL_UpdateTexture(w.image, NULL, w.img_ptr, WIN_WIDTH * sizeof(Uint32));
 	SDL_RenderCopy(w.renderer, w.image, NULL, NULL);
 	SDL_RenderPresent(w.renderer);
