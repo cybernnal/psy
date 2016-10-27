@@ -1,6 +1,3 @@
-//
-// Created by Raphaël Dantzer on 11/09/16.
-//
 
 #include <time.h>
 #include "push_swap.h"
