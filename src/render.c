@@ -54,6 +54,8 @@ void drawcircle(int x0, int y0, int radius, Uint32 color, t_window *w)
 }
 
 # define LINEAR_CONVERSION(X, x1, x2, y1, y2) (((float)((X - x1) * (y2 - y1)) / (x2 - x1)) + y1)
+#include <time.h>
+#include <stdlib.h>
 
 
 static void render_pile2( t_window *w, t_pile *p, int offset, int rad, int x0, int y0)
@@ -61,8 +63,16 @@ static void render_pile2( t_window *w, t_pile *p, int offset, int rad, int x0, i
     t_pile *tmp = p;
     static int total = 0;
     int tt = offset;
+    srand( time( NULL));
+    int r = rand( ) % 10;
+    int i = rand( ) % 2;
+    if (i == 0)
+	    r *= -1;
     int px = get_env()->px;
+    get_env()->px += r;
+
     int py = get_env()->py;
+
 
     if (total == 0)
         total = get_env()->total_size;
@@ -172,7 +182,7 @@ void        render(t_pile *a, t_pile *b) {
     while (SDL_PollEvent(&w.event)) {
         key_handler(w.event);
     }
-	render_pile(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
+	render_pile22(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
 	SDL_UpdateTexture(w.image, NULL, w.img_ptr, WIN_WIDTH * sizeof(Uint32));
 	SDL_RenderCopy(w.renderer, w.image, NULL, NULL);
 	SDL_RenderPresent(w.renderer);
