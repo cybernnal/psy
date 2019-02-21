@@ -2,7 +2,7 @@
 ============================
 ## **USAGE:**
 
-``make && ./psy `ruby -e "puts (0..100).to_a.join(' ')"` ``
+``make -C libft/ && make && ./psy `ruby -e "puts (0..100).to_a.join(' ')"` ``
 
 change number for change something
 
