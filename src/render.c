@@ -1,6 +1,3 @@
-//
-// Created by Raphaël Dantzer on 11/09/16.
-//
 
 #include <time.h>
 #include "push_swap.h"
@@ -57,7 +54,9 @@ void drawcircle(int x0, int y0, int radius, Uint32 color, t_window *w)
 
 
 static void render_pile2( t_window *w, t_pile *p, int offset, int rad, int x0, int y0)
-{
+{ 
+    static int ball_x = WIN_WIDTH / 2, ball_y = WIN_HEIGHT / 2;
+    static int ball_x_dir = 1, ball_y_dir = 1;
     t_pile *tmp = p;
     static int total = 0;
     int tt = offset;
@@ -75,11 +74,21 @@ static void render_pile2( t_window *w, t_pile *p, int offset, int rad, int x0, i
         }
         tmp = p;
         offset--;
-        drawcircle(x0, y0, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
+        drawcircle(x0 + ball_x, y0 + ball_y, (int) LINEAR_CONVERSION(offset, 0, total, 0, rad), tmp->color /* * circ * y0*/, w);
         offset = tt;
         y0 += py;
         x0 -= px;
     }
+    if (ball_x > WIN_WIDTH - rad)
+        ball_x_dir = -1;
+    else if (ball_x < rad)
+        ball_x_dir = 1;
+    if (ball_y > WIN_HEIGHT - rad)
+        ball_y_dir = -1;
+    else if (ball_y < rad)
+        ball_y_dir = 1;
+    ball_x += ball_x_dir;
+    ball_y += ball_y_dir;
 }
 
 static void render_pile22(t_window *w, t_pile *p, int offset)
@@ -172,7 +181,7 @@ void        render(t_pile *a, t_pile *b) {
     while (SDL_PollEvent(&w.event)) {
         key_handler(w.event);
     }
-	render_pile(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
+	render_pile22(&w, a, 0); // change to render_pile22   // use left clique mouse and up/down/left/right key for tricks
 	SDL_UpdateTexture(w.image, NULL, w.img_ptr, WIN_WIDTH * sizeof(Uint32));
 	SDL_RenderCopy(w.renderer, w.image, NULL, NULL);
 	SDL_RenderPresent(w.renderer);
